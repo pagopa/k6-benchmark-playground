@@ -1,9 +1,9 @@
-IO Service Catalog Benchmark
+# k6 Benchmark Playground
 
-We have to make technology decisions on which tool and architecture to prefer in order to serve a Service Catalog for IO.
-This project aims to provide some performance insights on different configurations.
+We often have to make technology decisions on which tool and architecture to prefer in order to serve a given use case. This project aims to provide a pre-formed playground to quickly run k6 scripts.
 
 It is based on [Grafana's k6](https://k6.io/).
+
 ----
 
 ## Usage
