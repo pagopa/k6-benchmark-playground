@@ -52,6 +52,7 @@ module "webapp" {
 
   allowed_subnets = [
     module.app_snet.id,
+    module.db_snet.id,
   ]
 
   tags = var.tags

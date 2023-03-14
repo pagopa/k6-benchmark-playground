@@ -19,6 +19,11 @@ variable "cidr_subnet" {
   description = "Subnet address space."
 }
 
+variable "cidr_subnet_db" {
+  type        = string
+  description = "Subnet address space."
+}
+
 #
 # External dependency
 #
@@ -60,8 +65,29 @@ module "app_snet" {
 
   service_endpoints = [
     "Microsoft.Web",
-    "Microsoft.AzureCosmosDB",
+    "Microsoft.Sql",
     "Microsoft.Storage",
+  ]
+
+  delegation = {
+    name = "default"
+    service_delegation = {
+      name    = "Microsoft.Web/serverFarms"
+      actions = ["Microsoft.Network/virtualNetworks/subnets/action"]
+    }
+  }
+}
+
+module "db_snet" {
+  source               = "git::https://github.com/pagopa/terraform-azurerm-v3.git//subnet?ref=v5.2.0"
+  name                 = format("%s-%s-db-snet", local.project, var.application_basename)
+  address_prefixes     = [var.cidr_subnet_db]
+  resource_group_name  = data.azurerm_resource_group.vnet_common_rg.name
+  virtual_network_name = data.azurerm_virtual_network.vnet_common.name
+
+  service_endpoints = [
+    "Microsoft.Web",
+    "Microsoft.Sql",
   ]
 
   delegation = {
