@@ -1,0 +1,25 @@
+version: "3"
+services:
+  server:
+    image: postgrest/postgrest
+    ports:
+      - "$SERVER_PORT:3000"
+    environment:
+      PGRST_DB_URI: postgres://$PG_USER:$PG_PWD@db:$PG_PORT/$PG_DB
+      PGRST_DB_SCHEMAS: servicecatalog
+      PGRST_OPENAPI_SERVER_PROXY_URI: http://127.0.0.1:$SERVER_PORT
+      PGRST_DB_ANON_ROLE: $PG_USER
+      PGRST_DB_MAX_ROWS: 100
+    depends_on:
+      - db
+  db:
+    image: postgres
+    ports:
+      - "$PG_PORT:5432"
+    volumes:
+      - ./scripts:/var/scripts
+      - ./.data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: $PG_DB
+      POSTGRES_USER: $PG_USER
+      POSTGRES_PASSWORD: $PG_PWD

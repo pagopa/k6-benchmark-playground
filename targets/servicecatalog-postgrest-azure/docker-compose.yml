@@ -1,0 +1,12 @@
+version: "3"
+services:
+  server:
+    image: postgrest/postgrest
+    ports:
+      - "3500:3000"
+    environment:
+      PGRST_DB_URI: postgres://iodservicecatalogbenchmark_user:24d0d223-8a60-5080-fe4a-cb6bda7cd00f@io-d-servicecatalogbenchmark-db-postgresql.postgres.database.azure.com:6432/app_db
+      PGRST_DB_SCHEMAS: servicecatalog
+      PGRST_OPENAPI_SERVER_PROXY_URI: http://127.0.0.1:3500
+      PGRST_DB_ANON_ROLE: iodservicecatalogbenchmark_user
+      PGRST_DB_MAX_ROWS: 100
